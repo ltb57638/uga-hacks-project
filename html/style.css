@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto Condensed';
+    color: #E0F7FA;
+  }
+  
+  body {
+    margin: 0;
+    background-color: #10E7DC
+   
+  }
+  
+  /* Style the header */
+  .header {
+    
+    padding-top: 10px;
+    
+    text-align: center;
+    font-size: 70px;
+  }
+  
+  /* Style the top navigation bar */
+  .topnav {
+    overflow: hidden;
+    background-color: #0074E1;
+  }
+  
+  /* Style the topnav links */
+  .topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change color on hover */
+  .topnav a:hover {
+    background-color: #1B9CE5;
+    color: black;
+  }
+  input{
+    padding: 20px;
+    font-size:25px;
+    border-radius:25px;
+    border:none;
+  }
+  input[type=submit] {
+      background-color: #F79E02; 
+  }
+  input[type=text]{
+      width:400px;
+      color: #757575;
+  }
+  .searchContainer {
+      text-align:center;
+      
+  }
+  .entryContainer {
+      text-align: center;
+  }
