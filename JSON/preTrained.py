@@ -12,7 +12,7 @@ def filterData():
     try:
         with open('dates.csv', newline = '') as date_file:
             for date in date_file:
-                dates.append(date)
+                dates.append(date[1:len(date)-1])
             print(dates)
     except:
         print("Dates must be supplied as a parameter to 'filterData()' or a 'dates.csv' file must be present!")
@@ -28,7 +28,7 @@ def filterData():
         dataColcFilePos = open('posValus.csv', "a")
         dataColcFileNeg = open('negValus.csv', "a")
         for i in dates:
-            rand = randint(0, 9)
+            rand = random.randint(0, 9)
             index = dates.index(i)
             #define the ticker symbol
             tickerSymbol = dates[index][0]
@@ -62,12 +62,6 @@ def filterData():
                 f = open(unique_filename, "a")
                 f.write(compList[i] + '\t1')
                 f.close()
-<<<<<<< HEAD
             
 filterData()
-=======
-        dataColcFilePos.write(dataCollecPos)
-        dataColcFileNeg.write(dataCollecNeg)
-            
->>>>>>> 4b169cc14dd7c507327f063cce1b72c2b30d6ee4
 
