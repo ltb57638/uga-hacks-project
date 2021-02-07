@@ -11,15 +11,17 @@ LIMIT = 10
 articles_array = []
 data = {}
 data['newspapers'] = {}
-with open('NewsPapers.json') as data_file:
-    companies = json.load(data_file)
+urls = []
+with open('sample.json') as data_file:
+    for line in data_file:
+        urls.append(json.loads(line))
 
 count = 1
 # Iterate through each news company
-for company, value in companies.items():
+for value in urls:
     if 'rss' in value:
         d = fp.parse(value['rss'])
-        print("Downloading articles from ", company)
+        #print("Downloading articles from ", company)
         newsPaper = {
             "rss": value['rss'],
             "link": value['link'],
@@ -47,57 +49,70 @@ for company, value in companies.items():
                     continue
                 newsPaper['articles'].append(article)
                 articles_array.append(article)
-                print(count, "articles downloaded from", company, ", url: ", entry.link)
+                #print(count, "articles downloaded from", company, ", url: ", entry.link)
                 count = count + 1
     else:
         # This is the fallback method if a RSS-feed link is not provided.
         # It uses the python newspaper library to extract articles
-        print("Building site for ", company)
-        paper = newspaper.build(value['link'], memoize_articles=False)
-        newsPaper = {
-            "link": value['link'],
-            "articles": []
-        }
-        noneTypeCount = 0
-        for content in paper.articles:
-            if count > LIMIT:
-                break
-            try:
-                content.download()
-                content.parse()
-            except Exception as e:
-                print(e)
-                print("continuing...")
-                continue
+        # print("Building site for ", company)
+        print(value["link"])
+        # paper = newspaper.build(value['link'], memoize_articles=False)
+        # newsPaper = {
+        #     "link": value['link'],
+        #     "articles": []
+        # }
+        # noneTypeCount = 0
+        # for content in paper.articles:
+        #     if count > LIMIT:
+        #         break
+        #     try:
+        #         content.download()
+        #         content.parse()
+        #     except Exception as e:
+        #         print(e)
+        #         print("continuing...")
+        #         continue
             # Again, for consistency, if there is no found publish date the article will be skipped.
 
-            article = {}
-            article['title'] = content.title
-            article['authors'] = content.authors
-            article['text'] = content.text
-            article['top_image'] =  content.top_image
-            article['movies'] = content.movies
-            article['link'] = content.url
-            article['published'] = content.publish_date
-            newsPaper['articles'].append(article)
-            articles_array.append(article)
-            print(count, "articles downloaded from", company, " using newspaper, url: ", content.url)
-            count = count + 1
+            # article = {}
+            # article['title'] = content.title
+            # article['authors'] = content.authors
+            # article['text'] = content.text
+            # article['top_image'] =  content.top_image
+            # article['movies'] = content.movies
+            # article['link'] = content.url
+            # article['published'] = content.publish_date
+            # newsPaper['articles'].append(article)
+            # articles_array.append(article)
+            # count = count + 1
             #noneTypeCount = 0
+        try:
+            url = value["link"]
+            article = Article(url)
+            article.download()
+            article.parse()
+            try:
+                f = csv.writer(open('Scraped_data_news_output.csv', 'w', encoding='utf-8'))
+                f.writerow([article.text])
+            except Exception as e:
+                print(e)
+        except Exception as e:
+            print(e)
+            continue
     count = 1
-    data['newspapers'][company] = newsPaper
-try:
-    f = csv.writer(open('Scraped_data_news_output.csv', 'w', encoding='utf-8'))
-    f.writerow(['Title', 'Authors','Text','Image','Videos','Link','Published_Date'])
+    # data['newspapers'][urls] = newsPaper
+# try:
+#     f = csv.writer(open('Scraped_data_news_output.csv', 'w', encoding='utf-8'))
+#     f.writerow(['Title', 'Authors','Text','Image','Videos','Link','Published_Date'])
     #print(article)
-    for artist_name in articles_array:
-        title = artist_name['title']
-        authors=artist_name['authors']
-        text=artist_name['text']
-        image=artist_name['top_image']
-        video=artist_name['movies']
-        link=artist_name['link']
-        publish_date=artist_name['published']
+    # for artist_name in articles_array:
+        # title = artist_name['title']
+        # authors=artist_name['authors']
+        # text = article.text
+        # image=artist_name['top_image']
+        # video=artist_name['movies']
+        # link=artist_name['link']
+        # publish_date=artist_name['published']
         # Add each artist’s name and associated link to a row
-        f.writerow([title, authors, text, image, video, link, publish_date])
-except Exception as e: print(e)
+        # f.writerow([text])
+# except Exception as e: print(e)
