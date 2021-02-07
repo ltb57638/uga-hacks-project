@@ -5,7 +5,7 @@ from newspaper import Article
 from time import mktime
 from datetime import datetime
 import csv
-
+import re
 
 LIMIT = 10
 articles_array = []
@@ -98,7 +98,8 @@ for value in urls:
             article.parse()
             try:
                 if (len(article.text.split()) > 100):
-                    f.writerow([' '.join(article.text.split()[:100]), '|'])
+                    content = re.sub(r'[^\w\s]','',' '.join(article.text.split()[:100]))
+                    f.writerow([content, '|'])
             except Exception as e:
                 print(e)
         except Exception as e:
