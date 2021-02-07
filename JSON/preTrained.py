@@ -3,6 +3,8 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import csv
 import yfinance as yf
 import pandas
+import uuid
+
 
 import datetime
 def filterData(dates):
@@ -35,6 +37,16 @@ def filterData(dates):
             
             negValue = vs['neg']
             posValue = vs['pos']
+            if (negValue > posValue and openPrice < closePrice):
+                unique_filename = 'negative/' + str(uuid.uuid4())
+                f = open(unique_filename, "a")
+                f.write(compList[i])
+                f.close()
+            elif (posValue > negValue and openPrice > closePrice):
+                unique_filename = 'positive/' + str(uuid.uuid4())
+                f = open(unique_filename, "a")
+                f.write(compList[i])
+                f.close()
             
             
 
