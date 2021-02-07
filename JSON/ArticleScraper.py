@@ -5,12 +5,13 @@ from newspaper import Article
 from time import mktime
 from datetime import datetime
 import csv
-import re
+
 
 LIMIT = 10
 articles_array = []
 data = {}
 data['newspapers'] = {}
+dates = []
 urls = []
 with open('sample.json') as data_file:
     for line in data_file:
@@ -98,8 +99,8 @@ for value in urls:
             article.parse()
             try:
                 if (len(article.text.split()) > 100):
-                    content = re.sub(r'[^\w\s]','',' '.join(article.text.split()[:100]))
-                    f.writerow([content, '|'])
+                    f.writerow([' '.join(article.text.split()[:100]), '|'])
+                    dates.append(value["date"])
             except Exception as e:
                 print(e)
         except Exception as e:
