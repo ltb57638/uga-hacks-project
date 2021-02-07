@@ -7,7 +7,6 @@ with open('constituents.csv', 'r') as csvfile:
     compList = list(reader)
     print(compList[1][1])
     for i in compList:
-        
         #define the ticker symbol
         tickerSymbol = 'MSFT'
 
@@ -19,7 +18,7 @@ with open('constituents.csv', 'r') as csvfile:
 
         #see your data
         tickerDf
-        print(data)
+        #print(data)
         filename = str(i[1]) + '.json'
         FILE = open(filename,"w")
         FILE.writelines(data)
