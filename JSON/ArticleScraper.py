@@ -20,6 +20,7 @@ def GetContent():
 
     try:
         f = csv.writer(open('Scraped_data_news_output.csv', 'w', encoding='utf-8'))
+        date_list = csv.writer(open('dates.csv', 'w', encoding='utf-8'))
     except Exception as e:
         print(e)
         
@@ -106,6 +107,7 @@ def GetContent():
                         if (tick != ''):
                             newList = [TickerGetter.getTicker(newContent), currentDate - datetime.timedelta(days=1), currentDate + datetime.timedelta(days=1)]
                             dates.append(newList)
+                            date_list.writerow([newList])
                             f.writerow([newContent, '|'])
                 except Exception as e:
                     print(e)
@@ -130,4 +132,3 @@ def GetContent():
         # Add each artist’s name and associated link to a row
         # f.writerow([text])
 # except Exception as e: print(e)
-
