@@ -8,13 +8,14 @@ import csv
 import TickerGetter
 import preTrained
 def GetContent():
+    interate = 0
     LIMIT = 10
     articles_array = []
     data = {}
     data['newspapers'] = {}
     dates = []
     urls = []
-    with open('sample.json') as data_file:
+    with open('News_Category_Dataset_v2.json') as data_file:
         for line in data_file:
             urls.append(json.loads(line))
 
@@ -100,6 +101,8 @@ def GetContent():
                 article.download()
                 article.parse()
                 try:
+                    print(interate)
+                    interate = interate + 1
                     if (len(article.text.split()) > 50):
                         newContent = ' '.join(article.text.split()[:50])
                         currentDate = datetime.datetime.strptime(value["date"], '%Y-%m-%d')
