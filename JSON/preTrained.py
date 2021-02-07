@@ -7,7 +7,15 @@ import uuid
 
 
 import datetime
-def filterData(dates):
+def filterData():
+    dates = []
+    try:
+        with open('dates.csv', newline = '') as date_file:
+            for date in date_file:
+                dates.append(date)
+            print(dates)
+    except:
+        print("Dates must be supplied as a parameter to 'filterData()' or a 'dates.csv' file must be present!")
     with open('Scraped_data_news_output.csv', newline='') as csvfile:
         
         # data = yf.download('AAPL','2016-01-04','2016-01-06') 
@@ -40,13 +48,13 @@ def filterData(dates):
             if (negValue > posValue and openPrice < closePrice):
                 unique_filename = 'negative/' + str(uuid.uuid4())
                 f = open(unique_filename, "a")
-                f.write(compList[i])
+                f.write(compList[i] + '\t0' )
                 f.close()
             elif (posValue > negValue and openPrice > closePrice):
                 unique_filename = 'positive/' + str(uuid.uuid4())
                 f = open(unique_filename, "a")
-                f.write(compList[i])
+                f.write(compList[i] + '\t1')
                 f.close()
             
-            
+filterData()
 

@@ -15,7 +15,7 @@ def GetContent():
     data['newspapers'] = {}
     dates = []
     urls = []
-    with open('News_Category_Dataset_v2.json') as data_file:
+    with open('sample2.json') as data_file:
         for line in data_file:
             urls.append(json.loads(line))
 
