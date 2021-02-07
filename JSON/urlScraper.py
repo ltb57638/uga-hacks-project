@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 import re
 import urllib.parse
 from urllib.parse import urlparse
-def googleSearch(query):
+def urlScraper(query):
     g_clean = [ ] #this is the list we store the search results
-    url = 'https://www.google.com/search?client=ubuntu&channel=fs&q=%7B%7D&ie=utf-8&oe=utf-8%27'.format(query) 
+    url = 'https://www.google.com/search?q=' + str(query) 
     #this is the actual query we are going to scrape
     try:
         html = requests.get(url)
@@ -29,3 +29,5 @@ def googleSearch(query):
         print(str(ex))
     finally:
         return g_clean
+
+
