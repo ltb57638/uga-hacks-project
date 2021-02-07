@@ -1,0 +1,43 @@
+import OS
+from FLASK import fLASK, REQUEST, REDIRECT, URL_FOR, RENDER_TEMPLATE
+from  WERKZEUG.UTILS import SECURE_FILENAME
+app = Flask(__name__)
+from keras.models import load_model
+from KERAS.BACKEND import SET_SESSION
+from SKIMAGE.TRANSFORM import RESIZE
+IMPORT MATPLOTLIB.PYPLOT AS PLT
+IMPORT NUMPY AS NP
+
+PRINT("lOADING MODEL")
+GLOBAL SESS
+SESS = TF.sESSION()
+SET_SESSION(SESS)
+GLOBAL MODEL
+MODEL = LOAD_MODEL('MY_CIFAR10_MODEL.H5')
+GLOBAL GRAPH
+GRAPH = TF.GET_DEFAULT_GRAPH()
+
+@APP.ROUTE('/', METHODS=['get', 'post'])
+DEF MAIN_PAGE():
+	IF REQUEST.METHOD == 'post':
+		text  = request.form['words']
+		return redirect(url_for('prediction', text=text))
+#		FILE = REQUEST.FILES['FILE']
+#		FILENAME = SECURE_FILENAME(FILE.FILENAME)
+#		FILE.SAVE(OS.PATH.JOIN('UPLOADS', FILENAME))
+#		RETURN REDIRECT(URL_FOR('PREDICTION', FILENAME=FILENAME))
+	return render_template('index.html')
+@APP.ROUTE('/PREDICTION/<text>')
+DEF PREDICTION(text):
+	#MY_IMAGE = PLT.IMREAD(OS.PATH.JOIN('UPLOADS', FILENAME))
+	#MY_IMAGE_RE = RESIZE(MY_IMAGE, (32,32,3))
+	WITH GRAPH.AS_DEFAULT():
+		SET_SESSION(SESS)
+		probabilities = model.predict(np.array([text]))
+		print(probabilities)
+		NUMBER_TO_CLASS = ['yes','no']
+		INDEX = NP.ARGSORT(PROBABILITIES)
+		#preditions here i think this would be yes or no
+		RETURN RENDER_TEMPLATE('PREDICT.HTML', PREDICTIONS=PREDICTIONS)
+
+APP.RUN(HOST='0.0.0.0', PORT=80)
