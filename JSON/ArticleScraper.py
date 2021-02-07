@@ -60,7 +60,7 @@ for value in urls:
         # This is the fallback method if a RSS-feed link is not provided.
         # It uses the python newspaper library to extract articles
         # print("Building site for ", company)
-        print(value["link"])
+        #print(value["link"])
         # paper = newspaper.build(value['link'], memoize_articles=False)
         # newsPaper = {
         #     "link": value['link'],
@@ -97,7 +97,8 @@ for value in urls:
             article.download()
             article.parse()
             try:
-                f.writerow([article.text, '|||'])
+                if (len(article.text.split()) > 100):
+                    f.writerow([' '.join(article.text.split()[:100]), '|'])
             except Exception as e:
                 print(e)
         except Exception as e:
