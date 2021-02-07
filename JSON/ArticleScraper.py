@@ -19,7 +19,7 @@ def GetContent():
             urls.append(json.loads(line))
 
     try:
-        f = csv.writer(open('Scraped_data_news_output.csv', 'w', encoding='utf-8'))
+        f = csv.writer(open('News_Category_Dataset_v2.json, 'w', encoding='utf-8'))
     except Exception as e:
         print(e)
         

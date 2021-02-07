@@ -14,7 +14,7 @@ def filterData(dates):
         
         # print(data['2016-01-04','Open'])
         # print(data['2016-01-05','Close'])
-
+        
         reader = csv.reader(csvfile, delimiter='|')
         compList = list(reader)
         for i in dates:
