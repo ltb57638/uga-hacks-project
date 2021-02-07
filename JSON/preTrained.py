@@ -4,20 +4,31 @@ import csv
 import yfinance as yf
 import pandas
 import uuid
-
+import random
 
 import datetime
-def filterData(dates):
+def filterData():
+    dates = []
+    try:
+        with open('dates.csv', newline = '') as date_file:
+            for date in date_file:
+                dates.append(date[1:len(date)-1])
+            print(dates)
+    except:
+        print("Dates must be supplied as a parameter to 'filterData()' or a 'dates.csv' file must be present!")
     with open('Scraped_data_news_output.csv', newline='') as csvfile:
         
         # data = yf.download('AAPL','2016-01-04','2016-01-06') 
         
         # print(data['2016-01-04','Open'])
         # print(data['2016-01-05','Close'])
-
+        
         reader = csv.reader(csvfile, delimiter='|')
         compList = list(reader)
+        dataColcFilePos = open('posValus.csv', "a")
+        dataColcFileNeg = open('negValus.csv', "a")
         for i in dates:
+            rand = random.randint(0, 9)
             index = dates.index(i)
             #define the ticker symbol
             tickerSymbol = dates[index][0]
@@ -36,17 +47,21 @@ def filterData(dates):
             vs = analyzer.polarity_scores(compList[index][0])
             
             negValue = vs['neg']
+            dataCollecPos = []
+            dataCollecNeg = []
             posValue = vs['pos']
             if (negValue > posValue and openPrice < closePrice):
-                unique_filename = 'negative/' + str(uuid.uuid4())
+                if (index % 10 == rand and len(dataCollecNeg) < 31):
+                    dataCollecNeg.append(negValue)
                 f = open(unique_filename, "a")
-                f.write(compList[i])
+                f.write(compList[i] + '\t0' )
                 f.close()
             elif (posValue > negValue and openPrice > closePrice):
-                unique_filename = 'positive/' + str(uuid.uuid4())
+                if (index % 10 == rand and len(dataCollecPos) < 31):
+                    dataCollecPos.append(posValue)
                 f = open(unique_filename, "a")
-                f.write(compList[i])
+                f.write(compList[i] + '\t1')
                 f.close()
             
-            
+filterData()
 

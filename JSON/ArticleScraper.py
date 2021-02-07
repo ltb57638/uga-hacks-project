@@ -8,18 +8,20 @@ import csv
 import TickerGetter
 import preTrained
 def GetContent():
+    interate = 0
     LIMIT = 10
     articles_array = []
     data = {}
     data['newspapers'] = {}
     dates = []
     urls = []
-    with open('sample.json') as data_file:
+    with open('sample2.json') as data_file:
         for line in data_file:
             urls.append(json.loads(line))
 
     try:
         f = csv.writer(open('Scraped_data_news_output.csv', 'w', encoding='utf-8'))
+        date_list = csv.writer(open('dates.csv', 'w', encoding='utf-8'))
     except Exception as e:
         print(e)
         
@@ -99,6 +101,8 @@ def GetContent():
                 article.download()
                 article.parse()
                 try:
+                    print(interate)
+                    interate = interate + 1
                     if (len(article.text.split()) > 50):
                         newContent = ' '.join(article.text.split()[:50])
                         currentDate = datetime.datetime.strptime(value["date"], '%Y-%m-%d')
@@ -106,6 +110,7 @@ def GetContent():
                         if (tick != ''):
                             newList = [TickerGetter.getTicker(newContent), currentDate - datetime.timedelta(days=1), currentDate + datetime.timedelta(days=1)]
                             dates.append(newList)
+                            date_list.writerow([newList])
                             f.writerow([newContent, '|'])
                 except Exception as e:
                     print(e)
@@ -130,4 +135,3 @@ def GetContent():
         # Add each artist’s name and associated link to a row
         # f.writerow([text])
 # except Exception as e: print(e)
-
