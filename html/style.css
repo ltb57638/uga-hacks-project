@@ -76,8 +76,8 @@ color: #757575;
 
   }
 div.gallery {
-	margin: 5px;
-	border: 1px solid #ccc;
+	margin: 15px;
+	border: none;
 	float: left;
 	width: 180px;
 }
@@ -95,5 +95,7 @@ div.desc {
 }
 galleryContainer {
 	text-align:center;
+	padding:10px;
+	margin: auto;
 }
 
