@@ -16,6 +16,11 @@ with open('sample.json') as data_file:
     for line in data_file:
         urls.append(json.loads(line))
 
+try:
+    f = csv.writer(open('Scraped_data_news_output.csv', 'w', encoding='utf-8'))
+except Exception as e:
+    print(e)
+    
 count = 1
 # Iterate through each news company
 for value in urls:
@@ -92,8 +97,7 @@ for value in urls:
             article.download()
             article.parse()
             try:
-                f = csv.writer(open('Scraped_data_news_output.csv', 'w', encoding='utf-8'))
-                f.writerow([article.text])
+                f.writerow([article.text, '|||'])
             except Exception as e:
                 print(e)
         except Exception as e:
