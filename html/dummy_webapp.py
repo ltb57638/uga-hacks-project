@@ -1,25 +1,25 @@
-import OS
-from FLASK import fLASK, REQUEST, REDIRECT, URL_FOR, RENDER_TEMPLATE
-from  WERKZEUG.UTILS import SECURE_FILENAME
+import os
+from flask import Flask, request, redirect, url_for, render_template
+from  werkzeug.utils import secure_filename
 app = Flask(__name__)
 from keras.models import load_model
-from KERAS.BACKEND import SET_SESSION
-from SKIMAGE.TRANSFORM import RESIZE
-IMPORT MATPLOTLIB.PYPLOT AS PLT
-IMPORT NUMPY AS NP
+from keras.backend import set_session
+from skimage.transform import resize
+import matplotlib.pyplot as plt
+import numpy as np
 
-PRINT("lOADING MODEL")
-GLOBAL SESS
-SESS = TF.sESSION()
-SET_SESSION(SESS)
-GLOBAL MODEL
-MODEL = LOAD_MODEL('MY_CIFAR10_MODEL.H5')
-GLOBAL GRAPH
-GRAPH = TF.GET_DEFAULT_GRAPH()
+print("Loading Model")
+global sess
+sess = tf.Session()
+set_session(sess)
+global model
+model = load_model('MY_CIFAR10_MODEL.H5')
+global graph
+graph = tf.get_default_graph()
 
-@APP.ROUTE('/', METHODS=['get', 'post'])
-DEF MAIN_PAGE():
-	IF REQUEST.METHOD == 'post':
+@app.route('/', methods=['GET', 'POST'])
+def main_page():
+	if request.method == 'POST':
 		text  = request.form['words']
 		return redirect(url_for('prediction', text=text))
 #		FILE = REQUEST.FILES['FILE']
@@ -27,17 +27,17 @@ DEF MAIN_PAGE():
 #		FILE.SAVE(OS.PATH.JOIN('UPLOADS', FILENAME))
 #		RETURN REDIRECT(URL_FOR('PREDICTION', FILENAME=FILENAME))
 	return render_template('index.html')
-@APP.ROUTE('/PREDICTION/<text>')
-DEF PREDICTION(text):
+@app.route('/prediction/<text>')
+def prediction(text):
 	#MY_IMAGE = PLT.IMREAD(OS.PATH.JOIN('UPLOADS', FILENAME))
 	#MY_IMAGE_RE = RESIZE(MY_IMAGE, (32,32,3))
-	WITH GRAPH.AS_DEFAULT():
-		SET_SESSION(SESS)
+	with graph.as_default():
+		set_session(sess)
 		probabilities = model.predict(np.array([text]))
 		print(probabilities)
-		NUMBER_TO_CLASS = ['yes','no']
-		INDEX = NP.ARGSORT(PROBABILITIES)
+		number_to_class = ['yes','no']
+		index = np.argsort(probabilities)
 		#preditions here i think this would be yes or no
-		RETURN RENDER_TEMPLATE('PREDICT.HTML', PREDICTIONS=PREDICTIONS)
+		return render_template('predict.html', predictions=predictions)
 
-APP.RUN(HOST='0.0.0.0', PORT=80)
+app.run(host='0.0.0.0', port=80)
