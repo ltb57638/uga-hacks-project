@@ -11,6 +11,7 @@ LIMIT = 10
 articles_array = []
 data = {}
 data['newspapers'] = {}
+dates = []
 urls = []
 with open('sample.json') as data_file:
     for line in data_file:
@@ -99,6 +100,7 @@ for value in urls:
             try:
                 if (len(article.text.split()) > 100):
                     f.writerow([' '.join(article.text.split()[:100]), '|'])
+                    dates.append(value["date"])
             except Exception as e:
                 print(e)
         except Exception as e:
