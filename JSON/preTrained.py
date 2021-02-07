@@ -4,7 +4,7 @@ import csv
 import yfinance as yf
 import pandas
 import uuid
-
+import random
 
 import datetime
 def filterData():
@@ -25,7 +25,10 @@ def filterData():
         
         reader = csv.reader(csvfile, delimiter='|')
         compList = list(reader)
+        dataColcFilePos = open('posValus.csv', "a")
+        dataColcFileNeg = open('negValus.csv', "a")
         for i in dates:
+            rand = randint(0, 9)
             index = dates.index(i)
             #define the ticker symbol
             tickerSymbol = dates[index][0]
@@ -44,17 +47,27 @@ def filterData():
             vs = analyzer.polarity_scores(compList[index][0])
             
             negValue = vs['neg']
+            dataCollecPos = []
+            dataCollecNeg = []
             posValue = vs['pos']
             if (negValue > posValue and openPrice < closePrice):
-                unique_filename = 'negative/' + str(uuid.uuid4())
+                if (index % 10 == rand and len(dataCollecNeg) < 31):
+                    dataCollecNeg.append(negValue)
                 f = open(unique_filename, "a")
                 f.write(compList[i] + '\t0' )
                 f.close()
             elif (posValue > negValue and openPrice > closePrice):
-                unique_filename = 'positive/' + str(uuid.uuid4())
+                if (index % 10 == rand and len(dataCollecPos) < 31):
+                    dataCollecPos.append(posValue)
                 f = open(unique_filename, "a")
                 f.write(compList[i] + '\t1')
                 f.close()
+<<<<<<< HEAD
             
 filterData()
+=======
+        dataColcFilePos.write(dataCollecPos)
+        dataColcFileNeg.write(dataCollecNeg)
+            
+>>>>>>> 4b169cc14dd7c507327f063cce1b72c2b30d6ee4
 
