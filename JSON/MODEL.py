@@ -5,11 +5,12 @@ import csv
 
 def filterData(dates):
     with open('Scraped_data_news_output.csv', newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter='|')
-        for row in spamreader:
-            print(', '.join(row))
-    analyzer = SentimentIntensityAnalyzer()
-    for sentence in sentences:
-        vs = analyzer.polarity_scores(sentence)
-        print("{:-<65} {}".format(sentence, str(vs)))
+        reader = csv.reader(csvfile, delimiter='|')
+        compList = list(reader)
+        for i in compList:
+            print(i)
+#     analyzer = SentimentIntensityAnalyzer()
+#     for sentence in sentences:
+#         vs = analyzer.polarity_scores(sentence)
+#         print("{:-<65} {}".format(sentence, str(vs)))
 filterData("here")
