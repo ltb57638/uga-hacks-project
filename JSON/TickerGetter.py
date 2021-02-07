@@ -8,8 +8,6 @@ spamreader = ''
 def getTicker(content):
     import re
     content = re.sub(r'[^\w\s]','',content)
-    # vowels list
-    
     articleContent = content.split()
     articleContent = [x.strip(' ') for x in articleContent]
     with open('constituents.csv', 'r') as csvfile:
